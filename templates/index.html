@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma ToDo App</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>Ma ToDo App</h1>
+    </header>
+
+    <main>
+        <!-- Contenu principal de votre application -->
+        <div id="content">
+            <!-- Section pour afficher les listes de tâches -->
+            <section id="task-lists">
+                <h2>Listes existantes</h2>
+            
+<ul>
+    {% for liste in listes %}
+    <li>
+        <!-- Afficher le nom de la liste -->
+        <h3>{{ liste.nom }}</h3>
+        <form action="{% url 'modifier_liste' liste.id %}" method="post">
+            {% csrf_token %}
+            <label>
+                <input type="text" name="nouveau_nom" value="{{ liste.nom }}">
+            </label>
+            <button type="submit">Modifier</button>
+        </form>
+        <form action="{% url 'supprimer_liste' liste.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Supprimer</button>
+        </form>
+
+        <!-- Afficher les tâches de la liste -->
+        <ul>
+            {% for tache in liste.taches.all %}
+            <li>
+                <!-- Afficher le nom de la tâche -->
+                {{ tache.nom }}
+                <form action="{% url 'modifier_tache' tache.id %}" method="post">
+                    {% csrf_token %}
+                    <label>
+                        <input type="text" name="nouveau_nom" value="{{ tache.nom }}">
+                    </label>
+                    <button type="submit">Modifier</button>
+                </form>
+                <form action="{% url 'supprimer_tache' tache.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Supprimer</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Formulaire pour ajouter une tâche -->
+        <form action="{% url 'ajouter_tache_liste' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="liste_id" value="{{ liste.id }}">
+            <label>
+                <input type="text" name="tache_nom" placeholder="Nouvelle tâche">
+            </label>
+            <button type="submit">Ajouter une tâche</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Formulaire pour ajouter une liste -->
+<form action="{% url 'ajouter_liste' %}" method="post">
+    {% csrf_token %}
+    <label>
+        <input type="text" name="nouveau_nom_liste" placeholder="Nom de la nouvelle liste">
+    </label>
+    <button type="submit">Ajouter une liste</button>
+</form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2022 Ma ToDo App. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>

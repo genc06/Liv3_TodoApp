@@ -1,22 +1,16 @@
-"""
-URL configuration for Liv3_TodoApp project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
+from Todo_App import views
 from django.urls import path
 
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.showIndex, name="index"),
+    path('ajouter-tache/', views.ajouter_tache, name='ajouter_tache'),  # URL pour ajouter une tâche
+    path('ajouter-tache-liste/', views.ajouter_tache_liste, name='ajouter_tache_liste'),
+    path('modifier-tache/<int:tache_id>/', views.modifier_tache, name='modifier_tache'),  # URL pour modifier une tâche
+    path('supprimer-tache/<int:tache_id>/', views.supprimer_tache, name='supprimer_tache'),
+    path('ajouter-liste/', views.ajouter_liste, name='ajouter_liste'),
+    path('supprimer-liste/<int:liste_id>/', views.supprimer_liste, name='supprimer_liste'),
+    path('modifier_liste/<int:liste_id>/', views.modifier_liste, name='modifier_liste'),
+
 ]
